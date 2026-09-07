@@ -61,34 +61,6 @@
               },
               "queryRef": "Measure.All Total Sales",
               "nativeQueryRef": "All Total Sales"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "AllSelected Sales"
-                }
-              },
-              "queryRef": "Measure.AllSelected Sales",
-              "nativeQueryRef": "AllSelected Sales"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Sales"
-                    }
-                  },
-                  "Property": "KeepFilters Sales"
-                }
-              },
-              "queryRef": "Sales.KeepFilters Sales",
-              "nativeQueryRef": "KeepFilters Sales"
             }
           ]
         }

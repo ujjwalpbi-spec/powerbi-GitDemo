@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "82961e59cab98a402209",
   "position": {
-    "x": 26.315789473684212,
-    "y": 159.64912280701756,
+    "x": 25.970149253731343,
+    "y": 159.40298507462686,
     "z": 0,
-    "height": 543.859649122807,
-    "width": 1236.8421052631579,
+    "height": 200.59701492537312,
+    "width": 1172.2388059701493,
     "tabOrder": 0
   },
   "visual": {
@@ -56,34 +56,6 @@
               },
               "queryRef": "Product.Category",
               "nativeQueryRef": "Category"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Product"
-                    }
-                  },
-                  "Property": "Product"
-                }
-              },
-              "queryRef": "Product.Product",
-              "nativeQueryRef": "Product"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Product"
-                    }
-                  },
-                  "Property": "Subcategory"
-                }
-              },
-              "queryRef": "Product.Subcategory",
-              "nativeQueryRef": "Subcategory"
             },
             {
               "field": {
