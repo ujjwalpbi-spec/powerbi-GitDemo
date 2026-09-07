@@ -1,0 +1,6 @@
+-- Returns the colors of Proseware branded products
+EVALUATE
+CALCULATETABLE (
+    VALUES ( 'Product'[Color] ),
+    'Product'[Category] = "Components"
+)

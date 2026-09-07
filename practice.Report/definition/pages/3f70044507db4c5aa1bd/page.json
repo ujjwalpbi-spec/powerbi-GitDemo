@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "3f70044507db4c5aa1bd",
+  "displayName": "Detail Report",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filtera130b839acd0e6d63716",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "Filter2678e73d2c4c51e8015c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Reseller"
+              }
+            },
+            "Property": "Reseller"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "cc88bb4997a25b7d0908",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "Param_Filtera130b839acd0e6d63716",
+        "boundFilter": "Filtera130b839acd0e6d63716",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product"
+          }
+        }
+      },
+      {
+        "name": "Param_Filter2678e73d2c4c51e8015c",
+        "boundFilter": "Filter2678e73d2c4c51e8015c",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Reseller"
+              }
+            },
+            "Property": "Reseller"
+          }
+        }
+      }
+    ],
+    "acceptsFilterContext": "None"
+  }
+}

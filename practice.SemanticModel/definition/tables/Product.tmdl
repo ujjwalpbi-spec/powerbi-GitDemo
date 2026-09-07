@@ -1,0 +1,106 @@
+table Product
+	lineageTag: 0556790a-14bc-42c3-9379-d68bf45f9d5f
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: dcfecbf6-1858-421a-b0f3-3569835f56da
+		summarizeBy: count
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: 52f54fb7-71c8-4207-8262-41cf311540c0
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 99977dfc-7566-4c25-b8dc-32c82a6b8159
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standard Cost'
+		dataType: double
+		lineageTag: 2d70153e-ea2f-4113-aa71-40739cd5ae6d
+		summarizeBy: sum
+		sourceColumn: Standard Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Color
+		dataType: string
+		lineageTag: 69d1062f-1306-4574-b590-14b2825f6efb
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'List Price'
+		dataType: double
+		lineageTag: 6aabb2eb-ad6a-4f68-be8d-bdbb4bfee1c2
+		summarizeBy: sum
+		sourceColumn: List Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Model
+		dataType: string
+		lineageTag: 52f34cfa-3335-44f5-9e4c-ae5adbdf62af
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: 1d32c764-2abc-4c8c-9d12-793041887079
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: bae8be51-60af-4f11-ac8f-637197f5e11b
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tble Calculate Column2' = CALCULATETABLE(VALUES('Product'[Product]),'Product'[Category] = "Components")
+		lineageTag: c3f7fd1a-0a18-4e07-a8ef-be0972dd4745
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Switch Test' = SWITCH(TRUE(),'Product'[Color]="Black","Good Color","Bad Color")
+		lineageTag: b16a09b2-9db8-4f29-98d3-17260880c898
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\AdventureWorks Sales.xlsx"), null, true),
+				    Product_Table = Source{[Item="Product",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Product_Table,{{"ProductKey", Int64.Type}, {"SKU", type text}, {"Product", type text}, {"Standard Cost", type number}, {"Color", type text}, {"List Price", type number}, {"Model", type text}, {"Subcategory", type text}, {"Category", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,94 @@
+table Calendar
+	lineageTag: 4114469a-3a20-49f3-8bea-05b61fe06f36
+
+	measure 'Sales Amount YTD' =
+			
+			IF(
+				ISFILTERED('Date'[Date]),
+				ERROR("Time intelligence quick measures can only be grouped or filtered by the Power BI-provided date hierarchy or primary date column."),
+				TOTALYTD(SUM('Sales'[Sales Amount]), 'Date'[Date].[Date])
+			)
+		lineageTag: 5254af7a-d9d6-4b11-9f6e-5ddaaedd6ab8
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "YearToDate"
+				}
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Amount YTD 2' =
+			
+			IF(
+				ISFILTERED('Date'[Date]),
+				ERROR("Time intelligence quick measures can only be grouped or filtered by the Power BI-provided date hierarchy or primary date column."),
+				TOTALYTD(SUM('Sales'[Sales Amount]), 'Date'[Date].[Date])
+			)
+		lineageTag: ac137e61-feed-42b9-a664-abc71f17c8f4
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "YearToDate"
+				}
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		formatString: yyyy-mm-dd
+		lineageTag: 919d03a0-a696-4e2a-9b14-443c3fcf1f2e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 5cd99c5f-f126-430b-8716-bb77c77b5154
+			defaultHierarchy: LocalDateTable_0e287fe0-0601-458e-9777-405f73b99bba.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Cal Year' = year('Calendar'[Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 63637fe4-9de9-44f3-ac4a-57f272fa0c8c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cal Month' = FORMAT(MONTH('Calendar'[Date]),"00")
+		lineageTag: 289ea353-ccd4-4304-b975-cd171c5f6f90
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cal Date' = FORMAT(DAY('Calendar'[Date]),"00")
+		lineageTag: 1d28dcf3-1623-4c12-943d-e00831d9606a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cal quarter' = QUARTER('Calendar'[Date])
+		formatString: 0
+		lineageTag: 0b177210-2240-489a-bc71-61d5cc273621
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalKey = CONCATENATE('Calendar'[Cal Year],CONCATENATE('Calendar'[Cal Month],'Calendar'[Cal Date]))
+		lineageTag: ba1d0233-7ead-499e-97e4-cbe95bc18132
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source = CALENDAR(DATE(2019,01,01),DATE(2022,12,31))
+
+	annotation PBI_Id = 97564878c7c44172a38f83bcd13ba512
+

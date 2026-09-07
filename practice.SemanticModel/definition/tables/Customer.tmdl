@@ -1,0 +1,84 @@
+table Customer
+	lineageTag: fcc1417b-b28e-4f2a-93fc-c93a67cd6251
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: af00075f-b266-4ebb-838d-3eb90f9a9f02
+		summarizeBy: count
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: aaf08598-93ab-4782-b677-6c8bae4cdaa0
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: db69925a-bf3f-49a0-b494-4f88fd615b24
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 484b2739-409b-47b0-8ecd-cf0efd36a4e4
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State-Province
+		dataType: string
+		lineageTag: 4ba81254-d130-4e02-8b36-0e58ac694fe0
+		summarizeBy: none
+		sourceColumn: State-Province
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country-Region
+		dataType: string
+		lineageTag: 732b3439-4e80-4424-af7d-e8b6a33e33c6
+		summarizeBy: none
+		sourceColumn: Country-Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Postal Code'
+		dataType: string
+		lineageTag: c36e65f2-81c7-4138-925a-63ef8d81560b
+		summarizeBy: none
+		sourceColumn: Postal Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 54ac3655-fe12-443b-ae3c-8fa3552e33fb
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\AdventureWorks Sales.xlsx"), null, true),
+				    Customer_Table = Source{[Item="Customer",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Customer_Table,{{"CustomerKey", Int64.Type}, {"Customer ID", type text}, {"Customer", type text}, {"City", type text}, {"State-Province", type text}, {"Country-Region", type text}, {"Postal Code", type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

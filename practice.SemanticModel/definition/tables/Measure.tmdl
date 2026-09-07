@@ -1,0 +1,71 @@
+table Measure
+	lineageTag: 6a490675-aba8-4ecb-9879-48f42fd57b3c
+
+	measure '2020 Sales' =
+			CALCULATE(
+			    SUM(Sales[Sales Amount]),
+			   YEAR('Date'[Date])= 2020
+			)
+		formatString: 0
+		lineageTag: a4a40923-fdbd-4eb1-9ffb-b079a27d811b
+
+	measure 'All Total Sales' = CALCULATE(SUM(Sales[Sales Amount]),ALL('Product'))
+		lineageTag: 10a003a0-6bbd-4fb4-a43f-acddbac10e05
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AllExcept Total Sales' = CALCULATE(SUM(Sales[Sales Amount]),ALLEXCEPT('Product','Product'[Category]))
+		lineageTag: 3b3e3f07-7504-4362-b889-f94a8e2ce369
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AllSelected Sales' =
+			CALCULATE(SUM(Sales[Sales Amount]),
+			ALLSELECTED('Product'))
+		lineageTag: e95710ed-6f1d-461f-a4a7-9c0b6501804a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure totalytd = TOTALYTD(SUM(Sales[Sales Amount]),'Date'[Date].[Date],"12/31")
+		lineageTag: c580523e-bc12-4410-a17c-6337c1524d1f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DatesYTD = CALCULATE(SUM(Sales[Sales Amount]),DATESQTD('Date'[Date].[Date]),'Calendar'[Cal Year]=2019,'Product'[Category]="Bikes")
+		lineageTag: 474529d9-77bf-4591-a4c4-9dbd5ef1cdcc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '2019 Sales' =
+			CALCULATE(
+			    SUM(Sales[Sales Amount]),
+			   YEAR('Date'[Date])= 2019
+			)
+		lineageTag: dbd4f6e1-f092-4a23-a783-e8c31f658b60
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% all Sales' = DIVIDE(SUM(Sales[Sales Amount]),[All Total Sales],0)*100
+		lineageTag: fda237f3-e2e6-4bd1-9f2a-6a1c1a195e6b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		formatString: 0
+		lineageTag: db34ae74-09aa-4d83-960d-6e5b77b300f6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = de66e94b6fcb48eba4dac9fbb92548c9
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":null}
+
+	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = To use special characters in a calculated table name, enclose the entire name in brackets ( [] ) and add a ] to any closing brackets in the name.
+

@@ -1,0 +1,243 @@
+table Sales
+	lineageTag: 03a0cbd6-f6ac-4853-9012-4d0f568305ea
+
+	measure 'Sales Amount2' = SUMX(Sales,Sales[Order Quantity]*Sales[Unit Price])
+		formatString: 0
+		lineageTag: 35b0e22d-f52f-4b71-895a-8d0b99efe860
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Bikes Sales' =
+			
+			CALCULATE(
+			    SUM('Sales'[Sales Amount]), FILTER('Product',
+			    'Product'[Category] = "Bikes"
+			))
+		lineageTag: a8d485cc-3034-44ab-af1c-d0ca2e944f4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tble Calculate' = CALCULATETABLE(VALUES('Product'[Product]),'Product'[Category] = "Components")
+		lineageTag: 87e86cb9-169f-47dc-855b-d3ffbbe3deb9
+
+	measure 'KeepFilters Sales' =
+			CALCULATE(SUM(Sales[Sales Amount]),
+			REMOVEFILTERS('Product'[Color]))
+		lineageTag: 6ef2f4b3-71ef-420c-a04e-9f675c60d7a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'dateadd Sales Last Month measure' = CALCULATE(sum(Sales[Sales Amount]),DATEADD('Date'[Date],0,YEAR))
+		lineageTag: 9067ff9c-3616-4b8d-ae84-8542baab166a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MTD Sales' = CALCULATE(SUM(Sales[Sales Amount]),DATESMTD('Date'[Date]))
+		lineageTag: a46ea537-b91b-4ebd-9f89-2680c857fc3f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'QTD Sales' = CALCULATE(SUM(Sales[Sales Amount]),DATESQTD('Date'[Date]))
+		lineageTag: 47982bd8-c6b6-4a54-b002-2f47f1ff382f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YTD Sales' = CALCULATE(SUM(Sales[Sales Amount]),DATESYTD('Date'[Date]))
+		lineageTag: 88c677dd-ae64-4a67-a701-10a401b76610
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Profit = ```
+			
+			
+			var sales2018 = CALCULATE(SUM(Sales[Sales Amount]),FILTER('Calendar','Calendar'[Cal Year]=2018))
+			
+			var sales2019 = CALCULATE(SUM(Sales[Sales Amount]),FILTER('Calendar','Calendar'[Cal Year]=2019))
+			
+			RETURN sales2019 - sales2018
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: e3c249d5-ca79-4349-b26d-72161340c7ee
+
+	measure 'Unit total' =
+			CALCULATE(SUM(Sales[Unit Price]),
+			FILTER('Calendar','Calendar'[Cal Year]=2019))
+		lineageTag: a2ba41f5-4fd1-48e7-86a7-f909824e267e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'error test' = IFERROR(DIVIDE([Sales Amount YTD],Sales[Unit total]),0)
+		lineageTag: 96a9571e-853a-4f94-a622-5c5f77968bce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesOrderLineKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 53d738ae-8912-48f5-9633-068ae4c89249
+		summarizeBy: count
+		sourceColumn: SalesOrderLineKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResellerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: af7ec94e-c18e-4f5d-9b50-cc70a93880ff
+		summarizeBy: count
+		sourceColumn: ResellerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 7936809d-da96-436e-887a-f40f3e76e4c6
+		summarizeBy: count
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 46906898-f0dd-4ba5-b9ff-28e600a3e531
+		summarizeBy: count
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: string
+		lineageTag: f4900f7d-29b6-48bc-9ac0-e9ef3372bd64
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: af7c8b1c-c988-4aff-9b2e-de4f80216c44
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c861c362-7aca-4923-897a-c5724a4e0aaf
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 774128c4-71ee-49b7-9d4f-03a25aef9f8f
+		summarizeBy: count
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: b6a98897-093d-4855-9454-8eb389c21f8a
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Price'
+		dataType: double
+		lineageTag: 76a8a7f5-22ee-484d-a1e9-445fb3c08364
+		summarizeBy: sum
+		sourceColumn: Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Extended Amount'
+		dataType: double
+		lineageTag: 7b553bd7-4c4c-46d4-9692-5db8e13b7ee9
+		summarizeBy: sum
+		sourceColumn: Extended Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Unit Price Discount Pct'
+		dataType: int64
+		formatString: 0
+		lineageTag: 969b9806-2c2a-411e-90a0-55f354b053a5
+		summarizeBy: sum
+		sourceColumn: Unit Price Discount Pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Standard Cost'
+		dataType: double
+		lineageTag: 376e99c5-9f01-4465-b07c-d91f8cef9859
+		summarizeBy: sum
+		sourceColumn: Product Standard Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Product Cost'
+		dataType: double
+		lineageTag: d96c7f8c-7e2c-4cd9-a9e4-8224d47a3b38
+		summarizeBy: sum
+		sourceColumn: Total Product Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Sales Amount'
+		dataType: double
+		lineageTag: 61cd4133-cd88-4032-a460-88c90e90f4a7
+		summarizeBy: sum
+		sourceColumn: Sales Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Test Column' = ""
+		lineageTag: b1141340-720b-462c-8e11-a307a5de6227
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tble Calculate Column' = CALCULATETABLE(VALUES('Product'[Product]),'Product'[Category] = "Components")
+		lineageTag: 3082a362-49f5-4f19-a8d4-62080a324c1c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\AdventureWorks Sales.xlsx"), null, true),
+				    Sales_Table = Source{[Item="Sales",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Sales_Table,{{"SalesOrderLineKey", Int64.Type}, {"ResellerKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"ProductKey", Int64.Type}, {"OrderDateKey", Int64.Type}, {"DueDateKey", Int64.Type}, {"ShipDateKey", Int64.Type}, {"SalesTerritoryKey", Int64.Type}, {"Order Quantity", Int64.Type}, {"Unit Price", type number}, {"Extended Amount", type number}, {"Unit Price Discount Pct", Int64.Type}, {"Product Standard Cost", type number}, {"Total Product Cost", type number}, {"Sales Amount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

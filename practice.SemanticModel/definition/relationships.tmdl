@@ -1,0 +1,20 @@
+relationship 270ded1a-a3e7-43c9-98c8-08ab3e73eafc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_063f5422-e75b-440f-8ef9-5bbb2468deaf.Date
+
+relationship dae68c34-d72a-4b65-aae7-165e0fc903c4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Month
+	toColumn: LocalDateTable_35fbdd7a-dc87-4a1c-a6df-f45b60b18791.Date
+
+relationship a1e5dbce-16bc-4661-8f41-dfd99380b3ae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.'Full Date'
+	toColumn: LocalDateTable_7d63e06d-5c9e-46c4-8901-4bf0ffa345b3.Date
+
+relationship 5cd99c5f-f126-430b-8716-bb77c77b5154
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_0e287fe0-0601-458e-9777-405f73b99bba.Date
+
